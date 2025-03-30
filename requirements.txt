@@ -1,0 +1,6 @@
+glfw==2.8.0
+multipledispatch==1.0.0
+numpy==2.2.4
+pygame==2.6.1
+PyOpenGL==3.1.9
+pyrr==0.10.3
