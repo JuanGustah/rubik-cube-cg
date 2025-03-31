@@ -117,8 +117,6 @@ def init():
         for j in range(3):
             for k in range(3):
                 cubes.append([i,j,k])
-                
-    
 def transformMat(coord):
     translationArr = []
     for comp in coord:
