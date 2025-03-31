@@ -7,6 +7,9 @@ if not glfw.init():
     raise Exception("Falha ao inicializar GLFW")
 
 width, height = 1000, 800
+zoom_factor = 1.0
+zoom_sensitivity = 0.05
+
 #GPT cantou aqui, mas gera um cubo basico
 vertices = [
     (-1, -1, -1),  # Vértice 0
@@ -52,8 +55,19 @@ if not window:
     glfw.terminate()
     raise Exception("Falha ao criar a window GLFW")
 
+def scroll_callback(window, xoffset, yoffset):
+    global zoom_factor
+    
+    if yoffset > 0:
+        zoom_factor *= (1.0 + zoom_sensitivity)  
+    else:
+        zoom_factor *= (1.0 - zoom_sensitivity) 
+        
+    zoom_factor = max(0.1, min(zoom_factor, 5.0))
+
 glfw.make_context_current(window)
 glfw.set_key_callback(window, key_callback)
+glfw.set_scroll_callback(window, scroll_callback)
 
 identityMatrix = [[1 if i==j else 0 for i in range(3)] for j in range(3)]
 rotCubeIn = (0,0)
@@ -144,11 +158,14 @@ def render():
         glRotatef(anglY, 0, 1, 0)
         glRotatef(anglX, 1, 0, 0)
 
+        glScalef(zoom_factor, zoom_factor, zoom_factor)
+        
         for cube in cubes:
             drawCube(cube)
 
         glfw.swap_buffers(window)
         glfw.poll_events()
+
     
     glfw.terminate()
 
