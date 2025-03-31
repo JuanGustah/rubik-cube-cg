@@ -1,31 +1,16 @@
-import numpy as np
-import random
 
-class State:
-    def __init__(self, size=3):
-        self.size = size
-        self.faces = np.zeros((6, size, size), dtype=int)
-        
-        for k in range(6):
-            self.faces[k, :, :] = k
-
-        #print(self.faces)
-
+#def shift_linha(self, origem, destino):
+    #TODO: Ajustar não rotaciona no superior
     def front_clock(self):
-
         temp = self.faces[2, 2, :].copy()  # Superior traseira
         self.faces[2, 2, :] = self.faces[4, :, 0][::-1]  # Superior <- Esquerda (invertida)
         self.faces[4, :, 0] = self.faces[3, 0, :][::-1]  # Esquerda <- Inferior (invertida)
         self.faces[3, 0, :] = self.faces[5, :, 0][::-1]  # Inferior <- Direita (invertida)
         self.faces[5, :, 0] = temp  # Direita <- Superior
-        #face_copy = self.faces[1].copy()
-        
-        
-        self.faces[1] = np.rot90(self.faces[1], k=-1)
-        
-        # for i in range(self.size):
-        #     for j in range(self.size):
-        #         self.faces[1, i, j] = face_copy[self.size-1-j, i]
+        face_copy = self.faces[1].copy()
+        for i in range(self.size):
+            for j in range(self.size):
+                self.faces[1, i, j] = face_copy[self.size-1-j, i]
 
     def front_anticlock(self):
         temp = self.faces[2, 2, :].copy()  # Superior traseira
@@ -33,13 +18,10 @@ class State:
         self.faces[5, :, 0] = self.faces[3, 0, :][::-1]  # Direita <- Inferior (invertida)
         self.faces[3, 0, :] = self.faces[4, :, 0][::-1]  # Inferior <- Esquerda (invertida)
         self.faces[4, :, 0] = temp[::-1]  # Esquerda <- Superior (invertida)
-        #face_copy = self.faces[1].copy()
-        
-        self.faces[1] = np.rot90(self.faces[1], k=1)
-        
-        # for i in range(self.size):
-        #     for j in range(self.size):
-        #         self.faces[1, i, j] = face_copy[j, self.size-1-i]
+        face_copy = self.faces[1].copy()
+        for i in range(self.size):
+            for j in range(self.size):
+                self.faces[1, i, j] = face_copy[j, self.size-1-i]
 
     def back_clock(self):
         temp = self.faces[2, 2, :].copy()  # Superior traseira
@@ -47,13 +29,10 @@ class State:
         self.faces[4, :, 0] = self.faces[3, 0, :][::-1]  # Esquerda <- Inferior (invertida)
         self.faces[3, 0, :] = self.faces[5, :, 0][::-1]  # Inferior <- Direita (invertida)
         self.faces[5, :, 0] = temp  # Direita <- Superior
-        # face_copy = self.faces[1].copy()
-        
-        self.faces[1] = np.rot90(self.faces[1], k=-1)
-        
-        # for i in range(self.size):
-        #     for j in range(self.size):
-        #         self.faces[1, i, j] = face_copy[self.size-1-j, i]
+        face_copy = self.faces[1].copy()
+        for i in range(self.size):
+            for j in range(self.size):
+                self.faces[1, i, j] = face_copy[self.size-1-j, i]
 
     def back_anticlock(self):
         temp = self.faces[2, 2, :].copy()  # Superior traseira
@@ -92,6 +71,7 @@ class State:
       for i in range(self.size):
           for j in range(self.size):
               self.faces[3, i, j] = face_copy[j, self.size - 1 - i]
+
 
 
     def down_clock(self):
@@ -159,5 +139,3 @@ class State:
         for i in range(self.size):
             for j in range(self.size):
                 self.faces[5, i, j] = face_copy[j, self.size-1-i]
-
-    
