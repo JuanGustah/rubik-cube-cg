@@ -191,7 +191,7 @@ def render():
     while not glfw.window_should_close(window):
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         glLoadIdentity()
-        gluLookAt(8, 5, -18,  # Posição da câmera
+        gluLookAt(8, 5, 18,  # Posição da câmera
                 0, 0, 0,  # Para onde a câmera olha
                 0, 1, 0)  # Vetor "up" (para cima)
         

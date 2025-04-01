@@ -12,24 +12,30 @@ class State:
         #print(self.faces)
 
     def front_clock(self):
-
-        temp = self.faces[2, 2, :].copy() 
-        self.faces[2, 2, :] = self.faces[4, :, 0]
-        self.faces[4, :, 0] = self.faces[3, 0, :]
-        self.faces[3, 0, :] = self.faces[5, :, 0]
-        self.faces[5, :, 0] = temp 
+        temp = self.faces[2, 0, :].copy() 
+        #self.faces[2, 0, :] = [0, 0, 0] # Linha superior primeira da minha visao
+        #self.faces[3, 2, :] = [0, 0, 0] # linha de baixo primeira da minha visao 
+        #self.faces[4, :, 0] = [0, 0, 0] # coluna primeira de minha visao esquerda
+        #self.faces[5, :, 2] = [0, 0, 0] #coluna primeira de minha visao direita
         
-        self.faces[1] = np.rot90(self.faces[1], k=-1)
+        self.faces[2, 0, :] = self.faces[4, :, 0] # linha superior 
+        self.faces[4, :, 0] = self.faces[3, 2, :][::-1] # linha da parte de baixo, [pegar coluna]
+        self.faces[3, 2, :] = self.faces[5, :, 2] # ta pegando ultima linha [pega primeira]
+        self.faces[5, :, 2] = temp[::-1] # ta pegando ultima linha [pega coluna]
+        
+        self.faces[0] = np.rot90(self.faces[0], k=1)
       
 
     def front_anticlock(self):
-        temp = self.faces[2, 2, :].copy()  # Superior traseira
-        self.faces[2, 2, :] = self.faces[5, :, 0][::-1]  # Superior <- Direita
-        self.faces[5, :, 0] = self.faces[3, 0, :][::-1]  # Direita <- Inferior (invertida)
-        self.faces[3, 0, :] = self.faces[4, :, 0][::-1]  # Inferior <- Esquerda (invertida)
-        self.faces[4, :, 0] = temp[::-1]  # Esquerda <- Superior (invertida)
-        
-        self.faces[1] = np.rot90(self.faces[1], k=1)
+      temp = self.faces[2, 0, :].copy()  # Linha superior da face frontal
+      # Ajuste das transferências com reversões para manter a orientação correta
+      self.faces[2, 0, :] = self.faces[5, :, 2][::-1]  # Coluna direita -> Linha superior (invertida)
+      self.faces[5, :, 2] = self.faces[3, 2, :]   # Linha inferior (back) -> Coluna direita (invertida)
+      self.faces[3, 2, :] = self.faces[4, :, 0][::-1]   # Coluna esquerda -> Linha inferior (back) (invertida)
+      self.faces[4, :, 0] = temp                  # Linha frontal original -> Coluna esquerda (invertida)
+      
+      # Rotaciona a própria face frontal 90 grados anti-horário
+      self.faces[0] = np.rot90(self.faces[0], k=-1)
         
 
     def back_clock(self):
