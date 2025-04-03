@@ -68,7 +68,7 @@ class State:
       temp = self.faces[0, 2, :].copy()  # Salva a linha superior da face da frente
       self.faces[0, 2, :] = self.faces[5, 2, :][::-1]  # Frente recebe Direita (invertida)
       self.faces[5, 2, :] = self.faces[1, 2, :][::-1]   # Direita recebe Traseira (invertida)
-      self.faces[1, 2, :] = self.faces[4, 2, :][::-1]   # Traseira recebe Esquerda (invertida)
+      self.faces[1, 2, :] = self.faces[4, 2, :][::-1]   # Traseira recebe Esquerda (invertida) ?
       self.faces[4, 2, :] = temp[::-1]  # Esquerda recebe Frente (invertida)
 
       self.faces[2] = np.rot90(self.faces[2], k=1)
@@ -84,25 +84,23 @@ class State:
       self.faces[2] = np.rot90(self.faces[2], k=-1)
 
     def down_clock(self):
-      temp = self.faces[0, 2, :].copy()  # Frente inferior
-      self.faces[0, 2, :] = self.faces[5, 2, :]  # Frente <- Esquerda
-      self.faces[5, 2, :] = self.faces[1, 2, :][::-1]  # Esquerda <- Traseira
-      self.faces[1, 2, :] = self.faces[4, 2, :]  # Traseira <- Direita
-      self.faces[4, 2, :] = temp[::-1]  # Direita <- Frente
-      face_copy = self.faces[2].copy()
+      temp = self.faces[0, 0, :].copy()  # Frente inferior
+      self.faces[0, 0, :] = self.faces[4, 0, :][::-1]  # Frente <- Esquerda
+      self.faces[4, 0, :] = self.faces[1, 0, :][::-1]  # Esquerda <- Traseira
+      self.faces[1, 0, :] = self.faces[5, 0, :][::-1]  # Traseira <- Direita
+      self.faces[5, 0, :] = temp[::-1]  # Direita <- Frente
 
-      self.faces[2] = np.rot90(self.faces[2], k=1)
+      self.faces[3] = np.rot90(self.faces[3], k=1)
     
     
     def down_anticlock(self):
-        temp = self.faces[0, 2, :].copy()  # Frente inferior
-        self.faces[0, 2, :] = self.faces[4, 2, :][::-1]  # Frente <- Direita
-        self.faces[4, 2, :] = self.faces[1, 2, :] # Direita <- Traseira
-        self.faces[1, 2, :] = self.faces[5, 2, :][::-1]  # Traseira <- Esquerda
-        self.faces[5, 2, :] = temp  # Esquerda <- Frente
-        face_copy = self.faces[2].copy()
-        
-        self.faces[2] = np.rot90(self.faces[2], k=-1)
+        temp = self.faces[0, 0, :].copy()  # Frente inferior
+        self.faces[0, 0, :] = self.faces[5, 0, :][::-1]  # Frente <- Esquerda
+        self.faces[5, 0, :] = self.faces[1, 0, :][::-1]  # Esquerda <- Traseira
+        self.faces[1, 0, :] = self.faces[4, 0, :][::-1]  # Traseira <- Direita
+        self.faces[4, 0, :] = temp[::-1]  # Direita <- Frente
+
+        self.faces[3] = np.rot90(self.faces[3], k=-1)
 
     def left_clock(self):
         temp = self.faces[0, :, 0].copy()  # Frente esquerda
