@@ -62,29 +62,26 @@ class State:
     # esta rotacionando a parte superior ao contrario
     # rotacoes laterais erradas
     def up_clock(self):
-      temp = self.faces[0, 0, :].copy()  # Salva a linha superior da face da frente
-      self.faces[0, 0, :] = self.faces[5, 0, ::-1]  # Frente recebe Direita (invertida)
-      self.faces[5, 0, :] = self.faces[1, 0, ::-1]  # Direita recebe Traseira (invertida)
-      self.faces[1, 0, :] = self.faces[4, 0, ::-1]  # Traseira recebe Esquerda (invertida)
-      self.faces[4, 0, :] = temp[::-1]  # Esquerda recebe Frente (invertida)
+      #self.faces[5, 2, :] = [0, 0, 0]
+      #self.faces[1, 2, :] = [0, 0, 0]
+      
+      temp = self.faces[0, 2, :].copy()  # Salva a linha superior da face da frente
+      self.faces[0, 2, :] = self.faces[5, 2, :][::-1]  # Frente recebe Direita (invertida)
+      self.faces[5, 2, :] = self.faces[1, 2, :][::-1]   # Direita recebe Traseira (invertida)
+      self.faces[1, 2, :] = self.faces[4, 2, :][::-1]   # Traseira recebe Esquerda (invertida)
+      self.faces[4, 2, :] = temp[::-1]  # Esquerda recebe Frente (invertida)
 
-      face_copy = self.faces[3].copy()
-      for i in range(self.size):
-          for j in range(self.size):
-              self.faces[3, i, j] = face_copy[self.size - 1 - j, i]
+      self.faces[2] = np.rot90(self.faces[2], k=1)
 
     # esta rotacionando a parte superior ao contrario
     def up_anticlock(self):
-      temp = self.faces[0, 0, :].copy()  # Salva a linha superior da face da frente
-      self.faces[0, 0, :] = self.faces[4, 0, ::-1]  # Frente recebe Esquerda (invertida)
-      self.faces[4, 0, :] = self.faces[1, 0, ::-1]  # Esquerda recebe Traseira (invertida)
-      self.faces[1, 0, :] = self.faces[5, 0, ::-1]  # Traseira recebe Direita (invertida)
-      self.faces[5, 0, :] = temp[::-1]  # Direita recebe Frente (invertida)
+      temp = self.faces[0, 2, :].copy()  # Salva a linha superior da face da frente
+      self.faces[0, 2, :] = self.faces[4, 2, :][::-1]  # Frente recebe Direita (invertida)
+      self.faces[4, 2, :] = self.faces[1, 2, :][::-1]   # Direita recebe Traseira (invertida)
+      self.faces[1, 2, :] = self.faces[5, 2, :][::-1]   # Traseira recebe Esquerda (invertida)
+      self.faces[5, 2, :] = temp[::-1]  # Esquerda recebe Frente (invertida)
 
-      face_copy = self.faces[3].copy()
-      for i in range(self.size):
-          for j in range(self.size):
-              self.faces[3, i, j] = face_copy[j, self.size - 1 - i]
+      self.faces[2] = np.rot90(self.faces[2], k=-1)
 
     def down_clock(self):
       temp = self.faces[0, 2, :].copy()  # Frente inferior
