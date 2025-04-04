@@ -107,6 +107,7 @@ rotCubeIn = (0,0)
 def init():
     glClearColor(0,0,0,1)
     glEnable(GL_DEPTH_TEST) 
+    
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
     gluPerspective(45, (width/height), 0.1, 50.0)
@@ -175,12 +176,13 @@ def drawCube(cube):
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
     glBegin(GL_QUADS)
+    
     for i in range(len(faces)):
         glColor3f(0,0,0)
         for vertexIdx in faces[i]:
             glVertex3fv(vertices[vertexIdx])
+    
     glEnd()
-
     glPopMatrix()
 
 def render():
